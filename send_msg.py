@@ -59,6 +59,24 @@ MESSAGES = {
 ‼️미취합자
 
 사전 예배 취합 현황입니다. 취합하실 분 부탁드리고 변동 있으면 알려 주세요 🙏""",
+    "group": """⭐️⭐️구역예배 취합⭐️⭐️
+#1구역
+✅ 구역 예배[토22:30(줌)]
+홍대의 박여리 박슬기 박이레 박주섭 김규수 우상한 송주영 김지연
+
+✅ 구역 예배[일 21:30(줌)]
+
+☑️ 개별 구역 예배 00/00
+* 이름/사유/시간
+조영광/주일
+박수정
+임승환
+김은지a
+
+‼️미취합자 00/00
+임수정 구본영
+
+사전 구역 예배 취합 현황입니다. 취합하실 분 부탁드리고 변동 있으면 알려 주세요 🙏""",
 }
 
 
@@ -74,7 +92,9 @@ def get_message():
     kst_now = datetime.now(timezone.utc) + timedelta(hours=9)
     if kst_now.weekday() == 0:
         return MESSAGES["weekday"]
-    if kst_now.weekday() == 3:
+    if kst_now.weekday() == 2:
+        return MESSAGES["group"]
+    if kst_now.weekday() == 4:
         return MESSAGES["sunday"]
 
     raise RuntimeError("No message is configured for today.")

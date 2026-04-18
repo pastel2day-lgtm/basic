@@ -4,8 +4,10 @@ on:
   schedule:
     # Monday KST 08:00 = Sunday UTC 23:00
     - cron: "0 23 * * 0"
-    # Thursday KST 08:00 = Wednesday UTC 23:00
-    - cron: "0 23 * * 3"
+    # Wednesday KST 22:00 = Wednesday UTC 13:00
+    - cron: "0 13 * * 3"
+    # Friday KST 08:00 = Thursday UTC 23:00
+    - cron: "0 23 * * 4"
   workflow_dispatch:
     inputs:
       message_type:
@@ -16,6 +18,7 @@ on:
         options:
           - weekday
           - sunday
+          - group
 
 jobs:
   send-message:
