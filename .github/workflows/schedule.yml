@@ -4,7 +4,18 @@ on:
   schedule:
     # Monday KST 08:00 = Sunday UTC 23:00
     - cron: "0 23 * * 0"
+    # Thursday KST 08:00 = Wednesday UTC 23:00
+    - cron: "0 23 * * 3"
   workflow_dispatch:
+    inputs:
+      message_type:
+        description: Message to send
+        required: true
+        default: weekday
+        type: choice
+        options:
+          - weekday
+          - sunday
 
 jobs:
   send-message:
@@ -26,4 +37,5 @@ jobs:
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          MESSAGE_TYPE: ${{ github.event.inputs.message_type }}
         run: python send_msg.py
