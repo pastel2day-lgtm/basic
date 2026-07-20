@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1" />
 <title>Glit — 삶이, 섬</title>
-<meta name="theme-color" content="#F09BA8" />
+<meta name="theme-color" content="#FFFAF1" />
 <meta name="description" content="에디토리얼 매거진 글릿(Glit) — 삶이, 섬" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -19,147 +19,128 @@
 
 <main class="deck" id="deck">
 
-  <!-- 0. 표지 -->
-  <section class="slide slide--cover" data-step="0">
-    <div class="cover__inner">
-      <p class="kicker">EDITORIAL MAGAZINE</p>
-      <h1 class="logo">Glit</h1>
-      <p class="cover__title">삶이, 섬</p>
-      <p class="cover__sub">삶이라는 섬 위에서, 나를 발견하다<br />— 나를 만나는 여정</p>
-    </div>
-
-    <div class="cover__hint">
+  <!-- 0. 팀 소개 (오프닝) -->
+  <section class="slide slide--intro" data-step="0">
+    <p class="kicker">EDITORIAL MAGAZINE</p>
+    <h1 class="logo logo--intro">Glit</h1>
+    <p class="intro__tag">삶이, 섬</p>
+    <p class="lead">기획 · 작가 · 에디터 · PD · 매니저가 모여,<br />사람마다 가진 고유한 ‘섬’ — 그 사람만의 진정성을 찾습니다.</p>
+    <figure class="media media--card">
+      <img src="./images/삶이섬.jpg" alt="삶이, 섬" />
+    </figure>
+    <div class="intro__hint">
       <span class="swipe-dot"></span>
       <p>화면을 넘겨주세요</p>
     </div>
-
-    <!-- 섬 위에 홀로 선 사람 -->
-    <svg class="cover__island" viewBox="0 0 300 110" fill="none" aria-hidden="true">
-      <!-- 사람 (섬 꼭대기 y=62 위에 발이 닿음) -->
-      <g fill="#4A3646">
-        <circle cx="150" cy="26" r="5"/>
-        <path d="M145 36c0-3.2 2.2-5.6 5-5.6s5 2.4 5 5.6v14h-10V36z"/>
-        <rect x="146.6" y="49" width="2.8" height="13" rx="1.4"/>
-        <rect x="150.6" y="49" width="2.8" height="13" rx="1.4"/>
-      </g>
-      <!-- 섬 (가운데가 솟은 바위) -->
-      <path d="M18 104c16-2 26-8 40-16 14-8 26-19 44-23 14-3 24 0 34 0 12 0 22-4 36 0 16 5 28 15 44 23 14 7 26 14 42 16H18z"
-            fill="#5F4453" opacity=".95"/>
-      <!-- 빛 받는 면 -->
-      <path d="M150 65c12 0 22 6 34 14 10 7 20 18 32 25H150V65z"
-            fill="#7E5C68" opacity=".5"/>
-    </svg>
   </section>
 
-  <!-- 1. 라포 형성 -->
-  <section class="slide slide--photo" data-step="1">
-    <figure class="media media--hero">
-      <img src="./images/참교육.jpg" alt="드라마 참교육 포스터" />
-    </figure>
-    <h2 class="ask">혹시 이 작품 아시나요?</h2>
-  </section>
-
-  <!-- 2. 리센느 — 탭하면 정답 공개 -->
-  <section class="slide slide--photo slide--reveal" data-step="2" id="reveal">
-    <figure class="media media--hero">
-      <img src="./images/리센느.jpg" alt="아이돌 리센느" />
-    </figure>
-
-    <h2 class="ask" data-reveal-hide>혹시 이 사진 아세요?</h2>
-    <p class="tap-hint" data-reveal-hide>
-      <span class="tap-ring"></span>
-      화면을 탭해보세요
-    </p>
-
-    <div class="answer" data-reveal-show hidden>
-      <p class="answer__shout">거제 야호!</p>
-      <p class="answer__name">리센느</p>
-    </div>
-  </section>
-
-  <!-- 3. 질문 -->
-  <section class="slide slide--quiet" data-step="3">
-    <p class="step">STEP 03 · 질문</p>
-    <h2 class="headline headline--lg">최근에<br />가장 인상 깊었던<br /><em>글귀나 문장</em>이<br />있으세요?</h2>
-  </section>
-
-  <!-- 4. 섬 — 이미지에 시가 들어있으므로 멘트 없음 -->
-  <section class="slide slide--photo slide--poem" data-step="4">
+  <!-- 1. 섬 — 이미지에 시가 들어있으므로 멘트 없음 -->
+  <section class="slide slide--photo slide--poem" data-step="1">
     <figure class="media media--hero">
       <img src="./images/섬.jpg" alt="정현종 시인의 시 「섬」" />
     </figure>
   </section>
 
-  <!-- 5. 팀 소개 -->
-  <section class="slide" data-step="5">
-    <p class="step">STEP 05 · 우리</p>
-    <h2 class="headline">에디토리얼 매거진<br /><em>글릿(Glit)</em></h2>
-    <p class="lead">기획 · 작가 · 에디터 · PD · 매니저가 모여, 사람마다 가진 고유한 ‘섬’ — 그 사람만의 진정성을 찾는 작업을 합니다.</p>
-
-    <figure class="media media--card">
-      <img src="./images/삶이섬.jpg" alt="삶이, 섬" />
+  <!-- 2. 리센느 — 사진만 -->
+  <section class="slide slide--photo" data-step="2">
+    <figure class="media media--hero">
+      <img src="./images/리센느.jpg" alt="리센느" />
     </figure>
   </section>
 
-  <!-- 6. 질문 1 — 자기소개 -->
-  <section class="slide slide--quiet" data-step="6">
-    <p class="step">STEP 06 · 질문 1</p>
+  <!-- 3. 폭싹 속았수다 — 라포 형성 -->
+  <section class="slide slide--photo" data-step="3">
+    <figure class="media media--hero">
+      <img src="./images/폭싹.webp" alt="드라마 「폭싹 속았수다」 포스터" />
+    </figure>
+    <h2 class="ask">혹시 이 작품 아시나요?</h2>
+  </section>
+
+  <!-- 4. 진정성 — 하단 워터마크 크롭 + 홈페이지 버튼 -->
+  <section class="slide slide--photo slide--sincere" data-step="4">
+    <figure class="sincere">
+      <img src="./images/진정성.jpeg" alt="진심이 닿는 이야기 — 우리의 이야기가 누군가의 오늘을 바꿀 수 있습니다" />
+    </figure>
+    <a class="btn-home" href="https://glit-in.netlify.app/" target="_blank" rel="noopener">글릿 홈페이지 구경하기 →</a>
+  </section>
+
+  <!-- 5. 질문 1 — 자기소개 -->
+  <section class="slide slide--quiet" data-step="5">
+    <p class="step">질문 01</p>
     <h2 class="headline headline--lg">나를<br /><em>소개</em>해 주세요</h2>
   </section>
 
-  <!-- 7. 질문 2 -->
-  <section class="slide slide--quiet" data-step="7">
-    <p class="step">STEP 07 · 질문 2</p>
+  <!-- 6. 질문 2 -->
+  <section class="slide slide--quiet" data-step="6">
+    <p class="step">질문 02</p>
     <h2 class="headline">사람을 볼 때<br />가장 중요하게<br />생각하는 것은?</h2>
-    <ul class="choices">
-      <li><span>A</span>성격</li>
-      <li><span>B</span>가치관</li>
-      <li><span>C</span>유머감각</li>
-      <li><span>D</span>첫인상</li>
-      <li><span>E</span>기타</li>
+    <ul class="choices" data-question="important_trait">
+      <li data-value="성격" tabindex="0" role="button"><span>A</span>성격</li>
+      <li data-value="가치관" tabindex="0" role="button"><span>B</span>가치관</li>
+      <li data-value="유머감각" tabindex="0" role="button"><span>C</span>유머감각</li>
+      <li data-value="첫인상" tabindex="0" role="button"><span>D</span>첫인상</li>
+      <li data-value="기타" tabindex="0" role="button"><span>E</span>기타</li>
     </ul>
   </section>
 
-  <!-- 8. 질문 3 -->
-  <section class="slide slide--quiet" data-step="8">
-    <p class="step">STEP 08 · 질문 3</p>
+  <!-- 7. 질문 3 -->
+  <section class="slide slide--quiet" data-step="7">
+    <p class="step">질문 03</p>
     <h2 class="headline">누군가 당신을<br />기억해 준다면<br />어떤 사람으로<br />남고 싶나요?</h2>
-    <ul class="choices">
-      <li><span>A</span>따뜻한 사람</li>
-      <li><span>B</span>용감한 사람</li>
-      <li><span>C</span>재미있는 사람</li>
-      <li><span>D</span>믿을 수 있는 사람</li>
+    <ul class="choices" data-question="remembered_as">
+      <li data-value="따뜻한 사람" tabindex="0" role="button"><span>A</span>따뜻한 사람</li>
+      <li data-value="용감한 사람" tabindex="0" role="button"><span>B</span>용감한 사람</li>
+      <li data-value="재미있는 사람" tabindex="0" role="button"><span>C</span>재미있는 사람</li>
+      <li data-value="믿을 수 있는 사람" tabindex="0" role="button"><span>D</span>믿을 수 있는 사람</li>
     </ul>
   </section>
 
-  <!-- 9. 질문 4 -->
-  <section class="slide slide--quiet" data-step="9">
-    <p class="step">STEP 09 · 질문 4</p>
+  <!-- 8. 질문 4 -->
+  <section class="slide slide--quiet" data-step="8">
+    <p class="step">질문 04</p>
     <h2 class="headline">요즘 가장<br />많이 하는<br /><em>고민</em>은?</h2>
-    <ul class="choices">
-      <li><span>A</span>진로</li>
-      <li><span>B</span>인간관계</li>
-      <li><span>C</span>돈</li>
-      <li><span>D</span>나 자신</li>
+    <ul class="choices" data-question="current_worry">
+      <li data-value="진로" tabindex="0" role="button"><span>A</span>진로</li>
+      <li data-value="인간관계" tabindex="0" role="button"><span>B</span>인간관계</li>
+      <li data-value="돈" tabindex="0" role="button"><span>C</span>돈</li>
+      <li data-value="나 자신" tabindex="0" role="button"><span>D</span>나 자신</li>
     </ul>
   </section>
 
-  <!-- 10. 질문 5 -->
-  <section class="slide slide--quiet" data-step="10">
-    <p class="step">STEP 10 · 질문 5</p>
+  <!-- 9. 질문 5 -->
+  <section class="slide slide--quiet" data-step="9">
+    <p class="step">질문 05</p>
     <h2 class="headline">지금의 삶을<br />한 단어로<br /><em>표현</em>한다면?</h2>
-    <ul class="choices">
-      <li><span>A</span>도전</li>
-      <li><span>B</span>안정</li>
-      <li><span>C</span>변화</li>
-      <li><span>D</span>탐색</li>
-      <li><span>E</span>기타</li>
+    <ul class="choices" data-question="life_word">
+      <li data-value="도전" tabindex="0" role="button"><span>A</span>도전</li>
+      <li data-value="안정" tabindex="0" role="button"><span>B</span>안정</li>
+      <li data-value="변화" tabindex="0" role="button"><span>C</span>변화</li>
+      <li data-value="탐색" tabindex="0" role="button"><span>D</span>탐색</li>
+      <li data-value="기타" tabindex="0" role="button"><span>E</span>기타</li>
     </ul>
   </section>
 
-  <!-- 11. 제안 -->
+  <!-- 10. 참여 혜택 — 얻는 것 / 수익금 -->
+  <section class="slide slide--reward" data-step="10">
+    <p class="step">인터뷰 참여 혜택</p>
+    <h2 class="ask">함께라서 더 의미 있어요</h2>
+
+    <div class="reward">
+      <p class="reward__label">얻는 것</p>
+      <figure class="reward__img">
+        <img src="./images/교보문고상품권.webp" alt="교보문고 상품권 5만원권" />
+      </figure>
+      <p class="reward__text"><b>추첨</b>을 통해 참여자분께<br /><b>교보문고 상품권 5만 원</b>을 드려요.</p>
+    </div>
+
+    <div class="reward">
+      <p class="reward__label">수익금은</p>
+      <p class="reward__text">이 인터뷰는 <b>의미 있는 봉사</b>예요.<br />매거진 수익의 일부는 <b>자립준비청년</b>을 위한<br />후원금으로 쓰입니다.</p>
+    </div>
+  </section>
+
+  <!-- 11. 인터뷰 신청 -->
   <section class="slide slide--offer" data-step="11">
-    <p class="step">STEP 11 · 제안</p>
     <h2 class="headline">당신의 <em>섬</em>을<br />담아드릴게요.</h2>
     <ul class="offer">
       <li><span>01</span> 평범한 사람들의 이야기를 매거진에 담습니다</li>

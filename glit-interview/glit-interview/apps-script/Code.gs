@@ -15,12 +15,20 @@
 
 const SHEET_ID = '1_TrSXd427sDwE7o3Z4xy7t9xg2aLgzdWZ8aA06X9FII';
 
+const HEADERS = [
+  '신청일시', '이름', '전화번호', '인스타 아이디',
+  '중요하게 생각하는 것', '기억되고 싶은 모습', '요즘 고민', '삶을 한 단어로',
+];
+
 function doPost(e) {
   const sheet = SpreadsheetApp.openById(SHEET_ID).getSheets()[0];
 
-  // 첫 행이 비어 있으면 헤더 추가
+  // 첫 행이 비어 있으면 헤더 추가, 기존 시트라 헤더가 짧으면 새 질문 헤더만 이어붙이기
   if (sheet.getLastRow() === 0) {
-    sheet.appendRow(['신청일시', '이름', '전화번호', '인스타 아이디']);
+    sheet.appendRow(HEADERS);
+  } else if (sheet.getLastColumn() < HEADERS.length) {
+    const from = sheet.getLastColumn();
+    sheet.getRange(1, from + 1, 1, HEADERS.length - from).setValues([HEADERS.slice(from)]);
   }
 
   const p = e.parameter;
@@ -29,6 +37,10 @@ function doPost(e) {
     p.name || '',
     p.phone || '',
     p.instagram || '',
+    p.important_trait || '',
+    p.remembered_as || '',
+    p.current_worry || '',
+    p.life_word || '',
   ]);
 
   return ContentService

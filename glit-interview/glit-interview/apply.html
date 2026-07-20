@@ -48,7 +48,7 @@
 
 <script>
 // Google Apps Script 웹 앱 URL — 배포 후 발급되는 /exec 주소를 넣으세요.
-const SHEET_ENDPOINT = 'https://script.google.com/macros/s/AKfycbxYiFBA4ijKmGbgxnTgDNM5YzJiOIUOYQItbVPjkIcU6j4pXXANLpcYzlZ--O4mvkUr/exec';
+const SHEET_ENDPOINT = 'https://script.google.com/macros/s/AKfycbwxx-vrApMKY6QSXk8R70EO7Qni-iSnl_--Y-RUjgAbL1tk-0acVeIcxBp865Od69I/exec';
 
 const form = document.getElementById('applyForm');
 const msg = document.getElementById('formMsg');
@@ -77,12 +77,19 @@ form.addEventListener('submit', async (e) => {
   msg.hidden = true;
 
   try {
+    const answers = JSON.parse(localStorage.getItem('glitAnswers') || '{}');
+
     const body = new URLSearchParams();
     body.set('name', name);
     body.set('phone', form.phone.value.trim());
     body.set('instagram', form.instagram.value.trim());
+    body.set('important_trait', answers.important_trait || '');
+    body.set('remembered_as', answers.remembered_as || '');
+    body.set('current_worry', answers.current_worry || '');
+    body.set('life_word', answers.life_word || '');
     await fetch(SHEET_ENDPOINT, { method: 'POST', mode: 'no-cors', body });
 
+    localStorage.removeItem('glitAnswers');
     form.hidden = true;
     document.querySelector('.lead').hidden = true;
     done.hidden = false;

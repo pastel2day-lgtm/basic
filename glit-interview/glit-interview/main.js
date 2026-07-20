@@ -30,26 +30,39 @@ const io = new IntersectionObserver(
 );
 slides.forEach((s) => io.observe(s));
 
-// 리센느 화면 — 탭하면 정답 공개, 다시 탭하면 되돌리기(다음 사람에게 재사용)
-const reveal = document.getElementById('reveal');
-if (reveal) {
-  const answer = reveal.querySelector('[data-reveal-show]');
+// 질문 선택지 — 탭하면 선택(다시 탭하면 해제), 인터뷰 신청 시 구글시트로 함께 전송
+const ANSWERS_KEY = 'glitAnswers';
+const answers = JSON.parse(localStorage.getItem(ANSWERS_KEY) || '{}');
 
-  reveal.addEventListener('click', () => {
-    const on = reveal.classList.toggle('is-revealed');
-    if (on) {
-      answer.hidden = false;
-      // 애니메이션 재시작
-      answer.querySelectorAll('p').forEach((p) => {
-        p.style.animation = 'none';
-        void p.offsetWidth;
-        p.style.animation = '';
-      });
+document.querySelectorAll('.choices[data-question]').forEach((list) => {
+  const question = list.dataset.question;
+  const items = [...list.children];
+
+  const render = () => {
+    items.forEach((li) => li.classList.toggle('is-selected', li.dataset.value === answers[question]));
+  };
+  render();
+
+  const select = (li) => {
+    if (answers[question] === li.dataset.value) {
+      delete answers[question];
     } else {
-      answer.hidden = true;
+      answers[question] = li.dataset.value;
     }
+    localStorage.setItem(ANSWERS_KEY, JSON.stringify(answers));
+    render();
+  };
+
+  items.forEach((li) => {
+    li.addEventListener('click', () => select(li));
+    li.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        select(li);
+      }
+    });
   });
-}
+});
 
 // 키보드 / 리모컨(프레젠터) 조작
 const move = (dir) => {

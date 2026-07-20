@@ -205,6 +205,7 @@ body{
   max-height:min(62vh,620px);
   max-width:100%;
   width:auto;height:auto;
+  min-width:0;              /* flex 항목이 컨테이너 너비 안으로 줄어들도록 (가로 넘침 방지) */
   border-radius:18px;
   box-shadow:0 12px 40px rgba(46,43,40,.14);
 }
@@ -356,8 +357,15 @@ figcaption b{color:var(--ink);font-weight:700}
   border:1px solid var(--line);
   background:var(--ivory);color:var(--ink);
   font-size:clamp(.95rem,3.8vw,1.05rem);font-weight:400;
-  transition:border-color .2s ease,background .2s ease;
+  cursor:pointer;user-select:none;
+  transition:border-color .2s ease,background .2s ease,color .2s ease;
 }
+.choices li:hover{border-color:var(--coral)}
+.choices li:focus-visible{outline:2px solid var(--coral);outline-offset:2px}
+.choices li.is-selected{
+  border-color:var(--coral);background:var(--coral);color:var(--cream);
+}
+.choices li.is-selected span{color:var(--cream)}
 .choices li span{
   flex:none;width:18px;
   color:var(--coral);font-size:.78rem;letter-spacing:.04em;font-weight:700;
@@ -496,6 +504,97 @@ figcaption b{color:var(--ink);font-weight:700}
   transition:background .25s,transform .25s;
 }
 .dots button.is-active{background:var(--coral);transform:scale(1.35)}
+
+/* ---------- intro (오프닝 = 팀 소개) ---------- */
+.slide--intro{
+  align-items:center;
+  text-align:center;
+  gap:clamp(14px,2.6vh,22px);
+  background:linear-gradient(180deg,var(--cream) 0%,var(--sand) 100%);
+}
+.logo--intro{
+  color:var(--ink);
+  text-shadow:none;
+  font-size:clamp(3.2rem,15vw,5.5rem);
+  line-height:.95;
+  margin-top:clamp(4px,2vh,16px);
+}
+.intro__tag{
+  font-family:'Gowun Batang',serif;
+  font-size:clamp(1.5rem,6.4vw,2.1rem);
+  font-weight:700;color:var(--coral);letter-spacing:.06em;
+  margin-top:-4px;
+}
+.slide--intro .lead{margin-inline:auto;text-align:center}
+.slide--intro .media--card{margin-top:clamp(4px,1.6vh,14px)}
+.slide--intro .media--card img{max-height:min(32vh,300px)}
+.intro__hint{
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  color:var(--ink-dim);
+  font-size:.78rem;letter-spacing:.12em;white-space:nowrap;
+  margin-top:clamp(6px,2vh,16px);
+}
+.intro__hint .swipe-dot{background:var(--coral)}
+
+/* ---------- 진정성 (하단 워터마크 크롭) ---------- */
+.slide--sincere{gap:clamp(20px,3.6vh,32px)}
+.sincere{
+  width:min(84vw,420px);
+  align-self:center;
+  display:flex;justify-content:center;
+}
+.sincere img{
+  width:100%;
+  aspect-ratio:765 / 860;   /* 원본 765×1024에서 하단 ~16% 크롭 → 제미나이 마크 제거 */
+  object-fit:cover;
+  object-position:top center;
+  border-radius:18px;
+  box-shadow:0 12px 40px rgba(46,43,40,.14);
+  display:block;
+}
+
+/* ---------- 홈페이지 이동 버튼 ---------- */
+.btn-home{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  align-self:center;
+  padding:13px 26px;border-radius:999px;
+  border:1.5px solid var(--coral);
+  background:var(--cream);color:var(--coral);
+  font-size:.98rem;font-weight:700;letter-spacing:-.01em;
+  text-decoration:none;
+  box-shadow:0 6px 18px rgba(217,119,78,.14);
+  transition:transform .2s ease,background .2s ease,color .2s ease;
+}
+.btn-home:hover{background:var(--coral);color:var(--cream)}
+.btn-home:active{transform:scale(.97)}
+
+/* ---------- 참여 혜택 (얻는 것 / 수익금) ---------- */
+.slide--reward{
+  background:linear-gradient(180deg,var(--cream) 0%,var(--sand) 100%);
+  gap:clamp(14px,2.6vh,22px);
+}
+.reward{
+  display:flex;flex-direction:column;gap:12px;
+  padding:clamp(16px,4vw,22px);
+  background:var(--ivory);
+  border:1px solid var(--line);
+  border-radius:16px;
+}
+.reward__label{
+  font-size:.72rem;letter-spacing:.14em;font-weight:700;
+  color:var(--coral);text-transform:uppercase;
+}
+.reward__img{
+  width:min(100%,220px);margin-inline:auto;
+  border-radius:12px;overflow:hidden;
+  box-shadow:0 8px 22px rgba(46,43,40,.12);
+}
+.reward__img img{display:block;width:100%;height:auto}
+.reward__text{
+  font-size:clamp(.96rem,3.7vw,1.06rem);
+  line-height:1.6;color:var(--ink-dim);font-weight:300;
+}
+.reward__text b{color:var(--ink);font-weight:700}
 
 /* ---------- tablet ---------- */
 @media (min-width:768px){
