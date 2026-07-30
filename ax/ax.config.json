@@ -1,0 +1,20 @@
+{
+  "projectName": "My Target Web App",
+  "baseURL": "http://localhost:3000",
+  "devCommand": "npm run dev",
+  "aiProvider": "stagehand",
+  "outputDir": "./.ax",
+  "scenarios": [
+    {
+      "name": "Standard Shopping & Checkout Scenario",
+      "steps": [
+        "Navigate to http://localhost:3000",
+        "Type AX2026 into promo code input",
+        "Click Apply Code button",
+        "Assert text Promo applied! is visible",
+        "Click Complete Order & Pay button",
+        "Assert text Payment Successful! is visible"
+      ]
+    }
+  ]
+}
