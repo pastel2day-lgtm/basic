@@ -1,17 +1,17 @@
 import { chromium } from '@playwright/test';
+import fs from 'fs';
+import path from 'path';
 import { loadHarnessConfig, AXHarnessConfig } from './config';
 import { AXScenarioRunner } from './scenario-runner';
 import { AXFeedbackFormatter } from '../../ax-engine/feedback-formatter';
 
-export async function runAXHarness(command: string = 'verify', cwd: string = process.cwd()) {
+export async function runAXHarness(command: string = 'verify', cwd: string = process.cwd(), isWatch: boolean = false) {
   console.log(`
   ╔══════════════════════════════════════════════════════╗
   ║       🩹 AX-HEAL (AI Self-Healing Test Harness)      ║
   ║    AI-to-AI Verification & Auto-Repair Gatekeeper   ║
   ╚══════════════════════════════════════════════════════╝
   `);
-
-  const config: AXHarnessConfig = loadHarnessConfig(cwd);
 
   if (command === 'init' || command === 'scan') {
     const { scanProjectAndGenerateConfig } = await import('./scanner.ts');
@@ -20,51 +20,70 @@ export async function runAXHarness(command: string = 'verify', cwd: string = pro
     return;
   }
 
+  const config: AXHarnessConfig = loadHarnessConfig(cwd);
+
   console.log(`📌 Project: ${config.projectName}`);
   console.log(`🌐 Base URL: ${config.baseURL}`);
   console.log(`🧪 Scenarios Configured: ${config.scenarios.length}`);
 
-  // Check if web app server is already running, if not, spawn dev server
+  // Check if web app server is running, if not, auto-spawn
   let devProcess: any = null;
   const isServerRunning = await fetch(config.baseURL).then(() => true).catch(() => false);
   if (!isServerRunning && config.devCommand) {
     console.log(`📡 Base URL ${config.baseURL} is offline. Auto-starting dev server ("${config.devCommand}")...`);
     const { exec } = await import('child_process');
     devProcess = exec(config.devCommand, { cwd });
-    // Wait for dev server startup
-    await new Promise((resolve) => setTimeout(resolve, 3000));
+    await new Promise((resolve) => setTimeout(resolve, 4000));
   }
 
-  const formatter = new AXFeedbackFormatter();
-  const browser = await chromium.launch({ headless: true });
-  const page = await browser.newPage();
+  const runVerificationPass = async () => {
+    const formatter = new AXFeedbackFormatter();
+    const browser = await chromium.launch({ headless: true });
+    const page = await browser.newPage();
+    const runner = new AXScenarioRunner(page, formatter);
 
-  const runner = new AXScenarioRunner(page);
-
-  for (const scenario of config.scenarios) {
-    try {
-      await runner.executeScenario(scenario);
-    } catch (err: any) {
-      console.error(`❌ Scenario "${scenario.name}" FAILED!`);
-      const domSnapshot = await page.content().catch(() => '');
-      formatter.addFailure({
-        suite: 'Stagehand',
-        testName: scenario.name,
-        errorMessage: err.message || 'Scenario execution failed',
-        stackTrace: err.stack || String(err),
-        domSnapshot,
-        timestamp: new Date().toISOString(),
-      });
+    for (const scenario of config.scenarios) {
+      try {
+        await runner.executeScenario(scenario, config.outputDir || './.ax');
+      } catch (err: any) {
+        console.error(`❌ Scenario "${scenario.name}" FAILED!`);
+        const domSnapshot = await page.content().catch(() => '');
+        formatter.addFailure({
+          suite: 'Stagehand',
+          testName: scenario.name,
+          errorMessage: err.message || 'Scenario execution failed',
+          stackTrace: err.stack || String(err),
+          domSnapshot,
+          timestamp: new Date().toISOString(),
+        });
+      }
     }
-  }
 
-  await browser.close();
-  if (devProcess) {
+    await browser.close();
+
+    const { jsonPath, promptPath, htmlPath } = formatter.generateReport(config.outputDir || './.ax');
+    console.log(`\n🎉 AX-HEAL Verification Finished!`);
+    console.log(`📄 Machine Feedback: ${jsonPath}`);
+    console.log(`📝 Auto-Repair Prompt: ${promptPath}`);
+    console.log(`📊 HTML Visual Dashboard: ${htmlPath}\n`);
+  };
+
+  await runVerificationPass();
+
+  if (devProcess && !isWatch) {
     devProcess.kill();
   }
 
-  const { jsonPath, promptPath } = formatter.generateReport(config.outputDir || './.ax');
-  console.log(`\n🎉 Verification AX Harness Finished!`);
-  console.log(`📄 Machine Feedback: ${jsonPath}`);
-  console.log(`📝 Auto-Repair Prompt: ${promptPath}\n`);
+  if (isWatch) {
+    console.log('👀 [AX Watcher] Watching src/ and components/ for code changes...');
+    const watchDir = path.join(cwd, 'src');
+    if (fs.existsSync(watchDir)) {
+      fs.watch(watchDir, { recursive: true }, async (eventType, filename) => {
+        if (filename && /\.(tsx|ts|jsx|js|css)$/.test(filename)) {
+          console.log(`\n🔄 File change detected: ${filename}. Re-executing AX-HEAL...`);
+          await runVerificationPass().catch(() => {});
+        }
+      });
+    }
+  }
 }

@@ -1,20 +1,54 @@
 import { Page, expect } from '@playwright/test';
+import path from 'path';
+import fs from 'fs';
 import { AXScenario, AXScenarioStep } from './config';
+import { AXFeedbackFormatter } from '../../ax-engine/feedback-formatter';
 
 export class AXScenarioRunner {
-  constructor(private page: Page) {}
+  constructor(private page: Page, private formatter?: AXFeedbackFormatter) {}
 
-  public async executeScenario(scenario: AXScenario): Promise<void> {
+  public async executeScenario(scenario: AXScenario, outputDir: string = './.ax'): Promise<void> {
     console.log(`\n🤖 [AX Harness] Running Scenario: "${scenario.name}"`);
+
+    const screenshotDir = path.join(outputDir, 'screenshots');
+    if (!fs.existsSync(screenshotDir)) {
+      fs.mkdirSync(screenshotDir, { recursive: true });
+    }
 
     for (let i = 0; i < scenario.steps.length; i++) {
       const step = scenario.steps[i];
-      console.log(`  ➔ Step ${i + 1}: ${typeof step === 'string' ? step : JSON.stringify(step)}`);
+      const stepDesc = typeof step === 'string' ? step : `${step.action} on ${step.target || step.value}`;
+      console.log(`  ➔ Step ${i + 1}: ${stepDesc}`);
 
-      if (typeof step === 'string') {
-        await this.parseAndExecuteNaturalStep(step);
-      } else {
-        await this.executeStructuredStep(step);
+      try {
+        if (typeof step === 'string') {
+          await this.parseAndExecuteNaturalStep(step);
+        } else {
+          await this.executeStructuredStep(step);
+        }
+
+        // Capture step screenshot for visual verification
+        const ssPath = path.join(screenshotDir, `step-${i + 1}.png`);
+        await this.page.screenshot({ path: ssPath, fullPage: false }).catch(() => {});
+
+        if (this.formatter) {
+          this.formatter.recordStep({
+            stepIndex: i + 1,
+            description: stepDesc,
+            status: 'PASS',
+            screenshotPath: ssPath,
+          });
+        }
+      } catch (err: any) {
+        if (this.formatter) {
+          this.formatter.recordStep({
+            stepIndex: i + 1,
+            description: stepDesc,
+            status: 'FAIL',
+            errorMessage: err.message || String(err),
+          });
+        }
+        throw err;
       }
     }
 
@@ -37,7 +71,7 @@ export class AXScenarioRunner {
       if (match) {
         const valueToType = match[1] || match[2] || match[3];
         const fieldTarget = match[4];
-        // Self-Healing Field Lookup (by placeholder, label, role, or text)
+        // Self-Healing Field Lookup (by placeholder, label, role, or testid)
         const field = this.page.getByPlaceholder(new RegExp(fieldTarget, 'i'))
           .or(this.page.getByLabel(new RegExp(fieldTarget, 'i')))
           .or(this.page.getByTestId('coupon-input'));
@@ -65,7 +99,7 @@ export class AXScenarioRunner {
       return;
     }
 
-    // Fallback: Default to Stagehand page.act natural language fallback
+    // Fallback: Stagehand page.act natural language fallback
     console.log(`  ℹ️ Using Stagehand AI Natural Language Act fallback for: "${text}"`);
     await this.page.locator(`text=${text}`).click().catch(() => {});
   }

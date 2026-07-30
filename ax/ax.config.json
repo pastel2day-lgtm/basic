@@ -1,15 +1,18 @@
 {
-  "projectName": "ax",
+  "projectName": "AX Shopping Demo App",
   "baseURL": "http://localhost:3000",
   "devCommand": "npm run dev",
   "aiProvider": "stagehand",
   "outputDir": "./.ax",
   "scenarios": [
     {
-      "name": "Auto-Scanned AI User Journey",
+      "name": "E2E Shopping & Promo Checkout Scenario",
       "steps": [
         "Navigate to http://localhost:3000",
-        "Type TEST_CODE into Promo code (e.g. AX2026)",
+        "Type AX2026 into promo code input",
+        "Click Apply Code button",
+        "Assert text Promo applied! is visible",
+        "Click Complete Order & Pay button",
         "Assert text Payment Successful! is visible"
       ]
     }
