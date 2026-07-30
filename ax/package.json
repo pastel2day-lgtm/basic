@@ -12,7 +12,8 @@
     "test:unit": "vitest run",
     "test:e2e": "playwright test",
     "ax:verify": "tsx ax-engine/orchestrator.ts",
-    "ax:heal": "tsx bin/ax-harness.js verify"
+    "ax:heal": "tsx bin/ax-harness.js verify",
+    "ax:sim": "tsx ax-engine/simulate-ax-loop.ts"
   },
   "dependencies": {
     "lucide-react": "^0.380.0",
