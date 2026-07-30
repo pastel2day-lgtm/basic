@@ -1,10 +1,10 @@
 {
-  "name": "ax-verification-framework",
+  "name": "ax-heal-harness",
   "private": true,
   "version": "1.0.0",
   "type": "module",
   "bin": {
-    "ax-harness": "./bin/ax-harness.js"
+    "ax-heal": "./bin/ax-harness.js"
   },
   "scripts": {
     "dev": "vite",
@@ -12,7 +12,7 @@
     "test:unit": "vitest run",
     "test:e2e": "playwright test",
     "ax:verify": "tsx ax-engine/orchestrator.ts",
-    "ax:harness": "tsx bin/ax-harness.js verify"
+    "ax:heal": "tsx bin/ax-harness.js verify"
   },
   "dependencies": {
     "lucide-react": "^0.380.0",

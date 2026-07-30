@@ -6,8 +6,8 @@ import { AXFeedbackFormatter } from '../../ax-engine/feedback-formatter';
 export async function runAXHarness(command: string = 'verify', cwd: string = process.cwd()) {
   console.log(`
   ╔══════════════════════════════════════════════════════╗
-  ║    🤖 Verification AX Reusable Harness CLI v1.0.0   ║
-  ║    AI-to-AI Self-Healing & Automated Test Gate     ║
+  ║       🩹 AX-HEAL (AI Self-Healing Test Harness)      ║
+  ║    AI-to-AI Verification & Auto-Repair Gatekeeper   ║
   ╚══════════════════════════════════════════════════════╝
   `);
 
